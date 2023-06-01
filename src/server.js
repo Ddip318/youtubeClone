@@ -3,6 +3,7 @@ import morgan from "morgan";
 import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
+import "./db";
 
 const PORT = 4000;
 
