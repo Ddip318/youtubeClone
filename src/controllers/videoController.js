@@ -1,12 +1,8 @@
 import Video from "../models/Video";
 
-const handleSearch = (error, videos) => {
-  console.log("errors", error);
-  console.log("videos", videos);
-};
-export const home = (req, res) => {
-  Video.find({}, handleSearch); //{} 모든 형식을 갖는다. (filletr,promise(구버전 callback))
-  return res.render("home", { pageTitle: "Home", videos: [] });
+export const home = async (req, res) => {
+  const videos = await Video.find({}); // {} 모든 형식의 값 받아옴res.render("home", { pageTitle: "Home", videos });
+  return res.render("home", { pageTitle: "Home", videos });
 };
 
 export const watch = (req, res) => {
@@ -26,7 +22,18 @@ export const postEdit = (req, res) => {
 export const getUpload = (req, res) => {
   return res.render("upload", { pageTitle: "Upload video" });
 };
-export const postUpload = (req, res) => {
-  const { title } = req.body;
+export const postUpload = async (req, res) => {
+  const { title, descrpition, hashtags } = req.body;
+  const video = new Video({
+    title,
+    descrpition,
+    createdAt: Date.now(),
+    hashtag: hashtags.split(",").map((word) => `#${word}`),
+    meta: {
+      views: 0,
+      rating: 0,
+    },
+  });
+  const dbVideo = await video.save(); //mongodb 에 저장
   return res.redirect("/");
 };
