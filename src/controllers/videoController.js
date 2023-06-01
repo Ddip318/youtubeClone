@@ -26,7 +26,7 @@ let videos = [
 ];
 
 export const trending = (req, res) => {
-  res.render("home", { pageTitle: "Home", videos });
+  return res.render("home", { pageTitle: "Home", videos });
 };
 
 export const watch = (req, res) => {
@@ -43,6 +43,23 @@ export const postEdit = (req, res) => {
   const { id } = req.params; //route 에서 받아옴
   const { title } = req.body; // req.body.title
   videos[id - 1].title = title;
-
   return res.redirect(`/videos/${id}`);
+};
+
+export const getUpload = (req, res) => {
+  console.log("getUpload");
+  return res.render("upload", { pageTitle: "Upload video" });
+};
+export const postUpload = (req, res) => {
+  const { title } = req.body;
+  const newVideo = {
+    title,
+    rating: 0,
+    comments: 0,
+    createdAt: "Just Now",
+    views: 0,
+    id: videos.length + 1,
+  };
+  videos.push(newVideo);
+  return res.redirect("/");
 };
