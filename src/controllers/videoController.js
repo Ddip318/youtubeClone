@@ -1,7 +1,9 @@
 import Video from "../models/Video";
 
 export const home = async (req, res) => {
-  const videos = await Video.find({}); // {} 모든 형식의 값 받아옴res.render("home", { pageTitle: "Home", videos });
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
+  //asc <-> desc
+  // {} 모든 형식의 값 받아옴res.render("home", { pageTitle: "Home", videos });
   return res.render("home", { pageTitle: "Home", videos });
 };
 
@@ -34,7 +36,7 @@ export const postEdit = async (req, res) => {
   await Video.findByIdAndUpdate(id, {
     title,
     description,
-    hashtags: Video.formatHashtags(),
+    hashtags: Video.formatHashtags(hashtags),
   });
   await video.save();
   return res.redirect(`/videos/${id}`);
@@ -50,7 +52,7 @@ export const postUpload = async (req, res) => {
       title,
       description,
       createdAt: Date.now(),
-      hashtags: Video.formatHashtags(),
+      hashtags: Video.formatHashtags(hashtags),
     });
     return res.redirect("/");
   } catch (error) {
@@ -60,4 +62,24 @@ export const postUpload = async (req, res) => {
       errorMessage: error._message,
     });
   }
+};
+
+export const deleteVideo = async (req, res) => {
+  const { id } = req.params;
+  await Video.findByIdAndDelete(id); //delete 쓰자 remove 말고
+  return res.redirect("/");
+};
+
+export const search = async (req, res) => {
+  const { keyword } = req.query;
+  let videos = [];
+  if (keyword) {
+    videos = await Video.find({
+      title: {
+        // keyword (contain) / ^${keyword} 앞 / ${keyword}$ 뒤
+        $regex: new RegExp(keyword, "i"), // i는 대소문자 no구분
+      },
+    });
+  }
+  return res.render("search", { pageTitle: "Search", videos });
 };

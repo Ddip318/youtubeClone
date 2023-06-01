@@ -4,5 +4,7 @@ block content
     div
         h2=video.description
         small=video.createdAt
-    a(href=`${video.id}/edit`) Edit Video &rarr; 
+    a(href=`${video.id}/edit`) Edit Video &rarr;
+    br
+    a(href=`${video.id}/delete`) Delete Video &rarr; 
     //-href="/edit" 하면 root/edit 이 됨
