@@ -9,8 +9,11 @@ import {
 
 const videoRouter = express.Router();
 
-videoRouter.get("/:id(\\d+)", watch);
-videoRouter.route("/:id(\\d+)/edit").get(getEdit).post(postEdit);
 videoRouter.route("/upload").get(getUpload).post(postUpload);
+videoRouter.get("/:id([0-9a-f]{24})", watch);
+videoRouter.route("/:id([0-9a-f]{24})/edit").get(getEdit).post(postEdit);
 
 export default videoRouter;
+
+//upload 를 id로 착각하는 상황이 나타남, :id 상단에 올려주는 방법이있고
+//documentation 방법이 있다.

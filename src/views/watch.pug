@@ -1,6 +1,8 @@
 extends base.pug
 
 block content
-    h3 #{video.views} #{video.views == 1 ? "view" : "views"}
+    div
+        h2=video.description
+        small=video.createdAt
     a(href=`${video.id}/edit`) Edit Video &rarr; 
     //-href="/edit" 하면 root/edit 이 됨
