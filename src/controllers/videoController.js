@@ -25,7 +25,9 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
-  const video = await Video.findById(id);
+  const video = await Video.exists({ _id: id });
+  //Filter 를 넣는거라 Title이 "hello" 인걸 확인도가능함
+  //object 다 가져올필요 없어서 참거짓만 확인
   if (!video) {
     return res.render("404", { pageTitle: "Video not found." });
   }

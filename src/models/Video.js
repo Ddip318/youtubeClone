@@ -4,11 +4,17 @@ const videoSchema = new mongoose.Schema({
   title: { type: String, required: true, uppercase: true }, //{type:String}
   description: { type: String, required: true },
   createdAt: { type: Date, required: true, default: Date.now },
-  hashtags: [{ type: String }],
+  hashtags: [{ type: String, trim: true }],
   meta: {
     views: { type: Number, default: 0, required: true },
     rating: { type: Number, default: 0, required: true },
   },
+});
+
+videoSchema.pre("save", async function () {
+  this.hashtags = this.hashtags[0]
+    .split(",")
+    .map((word) => (word.startsWith("#") ? word : `#${word}`));
 });
 
 const movieModel = mongoose.model("Video", videoSchema);
