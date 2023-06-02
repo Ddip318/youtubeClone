@@ -11,7 +11,7 @@ export const watch = async (req, res) => {
   const { id } = req.params; // req.params.id
   const video = await Video.findById(id);
   if (!video) {
-    return res.render("404", { pageTitle: "Video not found." });
+    return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   return res.render("watch", { pageTitle: video.title, video });
 };
@@ -20,7 +20,7 @@ export const getEdit = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (!video) {
-    return res.render("404", { pageTitle: "Video not found." });
+    return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   return res.render("edit", { pageTitle: `Edit : ${video.title}`, video });
 };
@@ -31,7 +31,7 @@ export const postEdit = async (req, res) => {
   //Filter 를 넣는거라 Title이 "hello" 인걸 확인도가능함
   //object 다 가져올필요 없어서 참거짓만 확인
   if (!video) {
-    return res.render("404", { pageTitle: "Video not found." });
+    return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   await Video.findByIdAndUpdate(id, {
     title,
@@ -57,7 +57,7 @@ export const postUpload = async (req, res) => {
     return res.redirect("/");
   } catch (error) {
     console.log(error);
-    return res.render("upload", {
+    return res.status(400).render("upload", {
       pageTitle: "Upload video",
       errorMessage: error._message,
     });
