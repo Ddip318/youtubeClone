@@ -17,10 +17,13 @@ app.use(express.urlencoded({ extended: true })); //express가 form과 그 value�
 
 app.use(
   session({
-    secret: "We can put a random String",
-    resave: true,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/youtube" }),
+    secret: process.env.COOKIE_SECRET,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 200000, //200seconds
+    },
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
 
