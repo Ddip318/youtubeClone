@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 });
 app.use(localsMiddlewate);
 app.use("/uploads", express.static("uploads")); //불러올 폴더 위치 지정
+app.use("/static", express.static("assets"));
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
