@@ -46,11 +46,13 @@ export const getUpload = (req, res) => {
   return res.render("upload", { pageTitle: "Upload video" });
 };
 export const postUpload = async (req, res) => {
+  const { path: fileUrl } = req.file; //multar 는 req.file 과 그 path를 제공
   const { title, description, hashtags } = req.body;
   try {
     await Video.create({
       title,
       description,
+      fileUrl,
       createdAt: Date.now(),
       hashtags: Video.formatHashtags(hashtags),
     });
