@@ -1,11 +1,5 @@
 import mongoose from "mongoose";
 
-mongoose.connect(process.env.DB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  //useFindAndModify: false,
-});
-
 const db = mongoose.connection;
 
 const handleOpen = () => console.log("😁 connect to DB");
