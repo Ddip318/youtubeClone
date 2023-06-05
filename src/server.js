@@ -16,6 +16,7 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 app.use(logger);
 app.use(express.urlencoded({ extended: true })); //express가 form과 그 value를 이해하도록 함
+app.use(express.json());
 
 app.use(
   session({
