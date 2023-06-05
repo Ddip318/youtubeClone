@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
@@ -33,6 +34,8 @@ app.use((req, res, next) => {
     next();
   });
 });
+
+app.use(flash());
 app.use(localsMiddlewate);
 app.use("/uploads", express.static("uploads")); //불러올 폴더 위치 지정
 app.use("/static", express.static("assets"));
